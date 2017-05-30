@@ -1,0 +1,11 @@
+<html>
+    <head>
+        <link rel="icon" href="#"/>
+        <script src="node_modules/@ecmal/runtime/index.js" main></script>
+        <script>
+        System.import('@ecmal/sample/Main').catch(function(e){
+            console.error(e.stack);
+        });
+        </script>
+    </head>
+</html>

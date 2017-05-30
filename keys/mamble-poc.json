@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "mamble-poc",
+    "private_key_id": "d966ec406bf174c05cb66ce430896d4886ad17d6",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDbWPmawLPXwmQS\nsnjBaikFWVn0fO/8rH8UbbLQwYifZJOM2M8f5fzHZt4MMV2MlOZ2UCcTnNMJgr4Z\nZbY72EyTzok2LRvY6R3/b+ANNBZxbIw1B72AtSMWwE/E+BAxDwtTCRSkATF1LXhj\nv6a2Z1R3ylkmH+oqi0dWaNCW2PdFmqP/93rYn5iYKWEeiGO/n0jsA9JOnIQUs6yG\n/YVTfhM5ZLCKh/p3MsNmeIqYt9PhBqtTRd4FoUxRwlvNuPAJjxO4JCMcxFHgBCSi\njWBfY2XWPQ9TULN/xIix7UDZSrhCQz7XIf3uM+9cYas63a0NZ6phPzguB8K1XuFt\nsVNUwtQjAgMBAAECggEBAIxqvw8kQXzjwnB9s/QNY8k60+1BddhJDOkk+I3O9wki\nt5o4yQ9giZuU7JzdlUeDoq0mzn0traOvAMb9Z9WTuCH+27PE2MjZIwz8r2+EYsGl\nfXQNSnD0hEvyPJ6ZNrRRLyyu6Xm8Ec8zlpg0fiLSry4oaT2QvLUTiE12t+F5b4Is\nNowTkrc9/dF9d3cUqgVqNERuPOjzA6Ng1Zf5o5g7qup9gX5cTOApVEBKEhMwaqnk\nPgHvbri09s86+8bPzfoueM5gpZ/A6UD2yBYA7j3SNqpW0XXccH/qNQ/dcIj5wNlr\nv1CzBdt2T4VP1rU6cKaUSO1AkrXaFo0YibBURxPYpkECgYEA/xfbb2lO42LM/Ad4\nUtqtjoF2IVzRv0Ut21/wyPBj1r1eNEOcuzwTSqGKpMJqxGVvvKzbYbVYTQDVJ8Y5\n1nNdcoYfMgEruXVvifTnK7BU8+9UPLYWECrJ3UTcFoQHDH+vLj+i5HfiquMcJ1Sm\nl134oGPm0CFuY2CckaGVGP+rQ/MCgYEA3CCWlCAFyDBGuiwEFllUtyqHb0S0l0BV\nCEW5AgkEqkHPeHuBrRyNEmr/STrPEaQWrsMJkiU7XlvDzTmxhXsffR2bCXCXsscD\nHaUpT2fYH2aQlxRmcpZvr7JrHhDPrKsO1Lqtl7t84MVH7nTrfq5RRuCe3AUNYTDo\n4h23sjwAqxECgYAur1UPjLxNTRWqwks5DqBYxkSyUmRoluaPkX1lqOj8sed9tSoH\n8jStoebXxGT50H6kjxYPSbsBTLe18cdAAhkGDpnC8wfnhyCEpPdxvXGuuww1mDVt\nfAc5oZKN5FfN58hNtIPBQFeRYsMSR6G9bgtEf0QMrzGeql29IU9CJfhYFQKBgF/5\nnW2L4Ll9wvidBFMyM6uA0XgD/rELjYeDzrxCblRFSU4Am3N8xU1IdXHaQDoyzuj3\nhI7ByPbFD8PE6c+G9R258MTW4G1EM+mS/0Xtwt89+sDEVj6TtLJoGigLsGBaXKcH\nlXRYfIQLv+cJ9ztOiYVbnifT1BeSGZes2VDOtIPhAoGBAOLMYaP3p7dsgBVA5Dvr\nOmtdlVv6sqQLVKKIoYwsF7aHXKGayn5DHvVPUSZurF4znUhQisI3dSyCjaXBoACa\n5r3hdcprNjlwABKCWvjdUP/4NiPS8bgRdhHZDuxoJHSN6lcw/FxYzFhYEvlkdTYf\nc1pBRWONjAuVfcPHWjYUYvzB\n-----END PRIVATE KEY-----\n",
+    "client_email": "poc-local@mamble-poc.iam.gserviceaccount.com",
+    "client_id": "107873592963737834114",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/poc-local%40mamble-poc.iam.gserviceaccount.com"
+}
