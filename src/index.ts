@@ -5,7 +5,7 @@ import {GoogleApi} from "./api"
 import { GoogleTrace, GoogleSpan } from "./trace/api";
 
 let ga = new GoogleApi({
-    keyFile: "./gapi/keys/mamble-poc.json",
+    keyFile: "/Users/Sergey/Documents/Keys/GC/mamble-poc.json",
     project: "mamble-poc",
     scopes: [
         GoogleApi.SCOPES.LOGGING_ADMIN,
