@@ -1,0 +1,7 @@
+steps:
+- name: gcr.io/mamble-poc/yarn
+  args: ['--modules-folder=out']
+- name: gcr.io/mamble-poc/yarn
+  args: ['build']
+- name: gcr.io/mamble-poc/yarn
+  args: ['release']

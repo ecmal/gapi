@@ -12,9 +12,13 @@
     "types"             : "index.d.ts",
     "bundle"            : true,
     "engines"           : {},
+    "scripts"           : {
+        "build"         : "elc package.json",
+        "release"       : "npm publish -f ./out/@ecmal/gapi"
+    },
     "directories"       : {
         "src"           : "./src",
-        "out"           : "../.out"
+        "out"           : "./out"
     },
     "dependencies"      : {
         "@ecmal/runtime"  : "0.0.2",
