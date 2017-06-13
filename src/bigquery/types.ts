@@ -20,7 +20,7 @@ export interface Dataset {
     friendlyName?: string,
     description?: string,
     defaultTableExpirationMs?: number,
-    labels?: MapLike<string>,
+    labels?: Dictionary<string>,
     access?: DatasetAccess[],
     creationTime?: number,
     lastModifiedTime?: number,
@@ -51,7 +51,7 @@ export interface Job {
 }
 export interface JobConfiguration {
     dryRun?: boolean,
-    labels?: MapLike<string>
+    labels?: Dictionary<string>
     query?: QueryJobConfiguration,
     load?: LoadJobConfiguration,
     copy?: CopyJobConfiguration,
@@ -72,7 +72,7 @@ export interface QueryJobConfiguration {
     useLegacySql: boolean,
     parameterMode: string,
     defaultDataset: DatasetReference,
-    tableDefinitions: MapLike<TableDefinition>,
+    tableDefinitions: Dictionary<TableDefinition>,
     userDefinedFunctionResources: FunctionResource[],
     queryParameters: QueryParameter[],
     schemaUpdateOptions: SchemaUpdateOption[]
@@ -227,7 +227,7 @@ export interface Table {
     type?: string,
     location?: string,
     tableReference?: TableReference,
-    labels?: MapLike<string>,
+    labels?: Dictionary<string>,
     schema?: TableSchema,
     view?: TableView,
     timePartitioning?: TimePartitioning,
@@ -289,7 +289,7 @@ export interface ParameterType {
 export interface ParameterValue {
     value: string,
     arrayValues: QueryParameterValue[],
-    structValues: MapLike<QueryParameterValue>
+    structValues: Dictionary<QueryParameterValue>
 }
 
 export interface QueryParameter {
@@ -432,7 +432,7 @@ export interface InsertRowsBody {
     skipInvalidRows: boolean,
     ignoreUnknownValues: boolean,
     templateSuffix: string,
-    rows: { insertId: string, json: MapLike<any> }[]
+    rows: { insertId: string, json: Dictionary<any> }[]
 }
 export interface InsertRowsResult {
     kind: "bigquery#tableDataInsertAllResponse",

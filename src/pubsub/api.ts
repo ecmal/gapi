@@ -5,7 +5,6 @@ import * as Crypto from "@ecmal/node/crypto";
 import { cached } from "@ecmal/runtime/decorators";
 import { inject } from "@ecmal/runtime/decorators";
 import { Emitter } from "@ecmal/runtime/events";
-import { Signal } from "@ecmal/runtime/events";
 import { Buffer } from "@ecmal/node/buffer";
 import { GoogleApiBase, GoogleRequest } from "../base";
 import { HttpClient } from "@ecmal/http/client";
@@ -17,14 +16,14 @@ export interface Topic {
 }
 export interface Message {
     data: any,
-    attributes?: MapLike<string>,
+    attributes?: Dictionary<string>,
     messageId?: string,
     ackId?: string,
     publishTime?: string,
 }
 export interface PushConfig {
     pushEndpoint: string;
-    attributes: MapLike<string>;
+    attributes: Dictionary<string>;
 }
 export interface Subscription {
     name?: string;
@@ -46,7 +45,7 @@ export class PubsubEntity {
 }
 export class PubsubMessage implements Message {
     data: Buffer;
-    attributes: MapLike<string>;
+    attributes: Dictionary<string>;
     messageId: string;
     ackId: string;
     publishTime: string;

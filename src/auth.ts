@@ -66,12 +66,12 @@ export class GoogleAuth {
             .replace(/\+/g, "-")
             .replace(/\//g, "_");
     }
-    protected getAssertion(scopes:string[]){
+    protected getAssertion(scopes:string[]){       
         let key  = this.getKeyJson();
         let head = this.toBase64Url(JSON.stringify({alg:"RS256",typ:"JWT"}))
         let body = this.toBase64Url(JSON.stringify({
-            iss     : key.client_email,
-            sub     : key.client_email,
+            iss     : key.client_id,
+            sub     : key.user_email || key.client_email,
             scope   : scopes.join(' '),
             aud     : CONFIG.AUTH_ENDPOINT,
             exp     : Math.floor(Date.now() / 1000)+3600,
@@ -86,6 +86,7 @@ export class GoogleAuth {
     public async getSession(cached = true):Promise<GoogleAuthSession>{
         let session = this.session;
         if(!cached){
+            //ya29.Gn9hBBNjlpCFWR_eB2rTsRVmYoYXhrTsF1q_WWrgcNWIo4dpGqV387HG4uLd5QFb_UPQQ6qwmL89qQH8bfWX_ojdQIKuN7fTaBcArmlo9i771SZAMpsodlXiaabk7fsuK6hUq0IkngYbqHsWjRoq-tH_hW4n9sKXKZ5P4rDweHHL
             session.access_token = null;
         }
         if(session && session.access_token){
@@ -125,10 +126,9 @@ export class GoogleAuth {
             let body = await res.json();
             return body;
         }catch(ex){
-            console.error(ex);
+            ex.stack = `Metadata request failed : ${ex.stack}`;
             throw ex;
         }
-        
     }
     public async refresh(){
         this.session.access_token = null;

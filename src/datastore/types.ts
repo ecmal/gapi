@@ -3,7 +3,7 @@ export type ReadConsistency = "READ_CONSISTENCY_UNSPECIFIED" | "STRONG" | "EVENT
 
 export interface Entity {
     key: Key;
-    properties: MapLike<Value>
+    properties: Dictionary<Value>
 }
 
 export interface EntityResult {
@@ -83,7 +83,7 @@ export interface Query {
 export interface GqlQuery {
     queryString: string,
     allowLiterals: boolean,
-    namedBindings: MapLike<GqlQueryParameter>,
+    namedBindings: Dictionary<GqlQueryParameter>,
     positionalBindings: GqlQueryParameter[],
 }
 export type GqlQueryParameter = {
@@ -218,7 +218,7 @@ export interface CommitParams {
 export interface CommitBody {
     mode: "MODE_UNSPECIFIED" | "TRANSACTIONAL" | "NON_TRANSACTIONAL",
     mutations: Mutation[],
-    transaction: string,
+    transaction?: string,
 }
 export interface CommitResult {
     "mutationResults": MutationResult[],

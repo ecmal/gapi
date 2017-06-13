@@ -8,7 +8,6 @@ import {GoogleAuth} from "./auth";
 import {GoogleLogging} from "./logging/api";
 
 import {Buffer} from "@ecmal/node/buffer";
-import {CONTEXT} from "@ecmal/runtime/decorators";
 
 import {HttpClient,HttpsClient,HttpRequest,HttpResponse} from "@ecmal/http/client";
 
@@ -108,8 +107,8 @@ export class GoogleApiBase {
     
     constructor(readonly options:GoogleApiOptions){
         Object.defineProperties(this,{
-            http  : { value : new HttpTransport(this) },
-            https : { value : new HttpsTransport(this) },
+            http  : { value : new HttpTransport(options as AgentOptions) },
+            https : { value : new HttpsTransport(options as AgentOptions) },
             auth  : { value : new GoogleAuth(this) },
         });
     }

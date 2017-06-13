@@ -61,14 +61,11 @@ export function main(){
             start_date: `01-01-${year}`,
             end_date: `01-03-${year}`
         });
-        
-        
         await Promise.all([
             downloadDay(job,`01-01-${year}`, trace.root),
             downloadDay(job,`01-02-${year}`, trace.root),
             downloadDay(job,`01-03-${year}`, trace.root)
         ]);
-
         trace.done();
     }
 

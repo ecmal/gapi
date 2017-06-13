@@ -5,20 +5,19 @@ import * as Crypto from "@ecmal/node/crypto";
 import { cached } from "@ecmal/runtime/decorators";
 import { inject } from "@ecmal/runtime/decorators";
 import { Emitter } from "@ecmal/runtime/events";
-import { Signal } from "@ecmal/runtime/events";
 import { Buffer } from "@ecmal/node/buffer";
 import { GoogleApiBase, GoogleRequest } from "../base";
 import { HttpClient } from "@ecmal/http/client";
 export type SpanKind = "RPC_SERVER" | "RPC_CLIENT";
 
 export interface Span {
-    spanId: number,
+    spanId: string,
     kind: SpanKind,
     name: string,
     startTime: string,
     endTime: string,
-    parentSpanId: number,
-    labels: MapLike<string>,
+    parentSpanId: string,
+    labels: Dictionary<string>,
 }
 
 export interface Trace {
@@ -35,17 +34,20 @@ export class GoogleSpan implements Span {
     public endTime: string;
     constructor(
         protected trace: GoogleTrace,
-        readonly spanId: number,
-        readonly parentSpanId: number,
+        readonly spanId: string,
+        readonly parentSpanId: string,
         readonly name: string,
         readonly kind: SpanKind,
-        readonly labels: MapLike<string> = {}
+        readonly labels: Dictionary<string> = {}
 
     ) {
         this.startTime = new Date().toISOString();
         this.endTime = null;
     }
-    set(labels: MapLike<string>): this {
+    setName(name):this{
+        return Object.assign(this,{name});
+    }
+    set(labels: Dictionary<string>): this {
         Object.assign(this.labels, labels);
         return this;
     }
@@ -71,14 +73,21 @@ export class GoogleTrace implements Trace {
     public projectId: string;
     public root: GoogleSpan;
     public spans: Span[];
+
+    private nextId(){
+        let p1 = this.spanId.substr(0,10);
+        let p2 = this.spanId.substr(10);
+        return this.spanId=`${p1}${parseInt(p2)+1}`;
+    }
     constructor(
         protected api: GoogleTracer,
         public traceId: string,
-        private next: number = 0,
+        private spanId: string,
         private name: string = 'empty',
     ) {
+
         this.projectId = this.api.projectId;
-        this.root = new GoogleSpan(this, this.next++, void 0, name, this.api.kind)
+        this.root = new GoogleSpan(this, spanId, void 0, name, this.api.kind)
         this.spans = [this.root];
         this.api.traces.set(this.traceId, this);
     }
@@ -86,15 +95,19 @@ export class GoogleTrace implements Trace {
     public span(name: string, parent?: Span, kind?: SpanKind): GoogleSpan {
         kind = kind || (parent ? parent.kind : this.api.kind)
         parent = parent || this.root;
-        let span = new GoogleSpan(this, this.next++, parent.spanId, name, kind);
+        let span = new GoogleSpan(this, this.nextId(), parent.spanId, name, kind);
         this.spans.push(span)
         return span;
     }
-    public set(labels: MapLike<string>): this {
+    setName(name): this {
+        this.root.setName(name)
+        return this;
+    }
+    public set(labels: Dictionary<string>): this {
         this.root.set(labels);
         return this;
     }
-    public done(labels?: MapLike<string>) {
+    public done(labels?: Dictionary<string>) {
         this.api.traces.delete(this.traceId);
         this.api.queue.add(this);
         this.set(labels);
@@ -176,12 +189,8 @@ export class GoogleTracer {
     }
     start() {
         if (!this.timer) {
-            let oldResult = ''; 
             this.timer = setInterval(()=>{
-                let newResult = this.commit();
-                if(oldResult!=newResult){
-                    console.info(oldResult = newResult)
-                }
+                this.commit();
             }, 1000);
         }
     }
@@ -192,22 +201,26 @@ export class GoogleTracer {
         }
     }
     commit() {
-        let result = `COMMIT : ${this.traces.size} / ${this.queue.size}`;
         let data = []
         if (this.queue.size) {
             this.queue.forEach(e => {
                 data.push(e);                
             })
+            //console.info(JSON.stringify(data,null,2));
             this.queue.clear();
             this.api.resource.patch({
                 params : {projectId:this.projectId },
                 body: { traces: data }
-            }).then(
-                r=>console.info(r),
-                e=>console.error(e)
-            )
+            }).catch(e=>{
+                console.error(e)
+                console.error(JSON.stringify(data,null,2))
+            })
+            //.then(r=>console.info(r),e=>console.error(e))
         }
-        return result;
+        return {
+            pending_traces_count:this.traces.size,
+            comitted_traces_count:this.queue.size
+        };
     }
 
     @cached
@@ -224,10 +237,10 @@ export class GoogleTracer {
         if (!id) {
             id = Crypto.createHash('md5').update(process.hrtime().join('')).digest('hex');
         }
-        let traceId = id, spanId = 1;
+        let traceId = id, spanId = Math.floor(Number.MAX_SAFE_INTEGER*Math.random()).toString();
         if (id.length > 32 && id[32] == '/') {
             traceId = id.substring(0, 32)
-            spanId = parseInt(id.substring(33))
+            spanId = id.substring(33)
         }
         if (this.traces.has(traceId)) {
             return this.traces.get(traceId);

@@ -41,7 +41,7 @@ export interface LogEntry {
     sourceLocation? : any;
     labels?         : any;
     httpRequest?    : LogHttpRequest;
-    jsonPayload?    : MapLike<any> & {
+    jsonPayload?    : Dictionary<any> & {
         message?    : string;
     }
 }
@@ -57,6 +57,7 @@ export class GoogleLog {
     readonly entries : any[];
     private timer: any;
     private requests:any[];
+    public entry:any;
     constructor(logging: GoogleLogging, parentType: GoogleLogParent, parentId: string, logId: string, resource: any, labels: any) {
         let logName = `${parentType}s/${parentId}/logs/${encodeURIComponent(logId)}`.toLowerCase()
         Object.defineProperties(this, {
@@ -72,10 +73,11 @@ export class GoogleLog {
         })
     }
     public log(message:string,severity:GoogleLogSeverity="DEFAULT",patch?:LogEntry):LogEntry{
-        let entry = patch || {
+        let entry = patch ||{
             severity,
             jsonPayload : {message}
         }
+        Object.assign(entry,this.entry);
         entry.severity = severity;
         if(!entry.jsonPayload){
             entry.jsonPayload = {message}
@@ -113,7 +115,6 @@ export class GoogleLog {
     }
     public commit(){
         let sendRequest = async () => {
-            console.info('Logging push entries', this.entries.length)
             return await this.logging.writeEntries({
                 partialSuccess  : true,
                 labels          : this.labels,
@@ -133,7 +134,8 @@ export class GoogleLog {
                         }
                     },
                     (e) => {
-                        //console.error(e);
+                        console.error(e.message);
+                        console.error(JSON.stringify(e.details,null,2));
                         clearTimeout(this.timer);
                         this.timer = null;
                         if(this.entries.length){
@@ -160,6 +162,24 @@ export class GoogleLogging extends GoogleApiBase {
             path        : '/v2/entries:write',
             body        : params
         });
+    }
+    async listProjectLogs(projectId?:string){
+        projectId = projectId||this.options.project;
+        let result = await this.call({
+            method: 'GET',
+            host: 'logging.googleapis.com',
+            path: `/v2/projects/${projectId}/logs`,
+        });
+        return result.logNames.map(l => decodeURIComponent(l.split('/').pop()));
+    }
+    async deleteProjectLog(logId: string, projectId?: string) {
+        projectId = projectId || this.options.project;
+        let result = await this.call({
+            method: 'DELETE',
+            host: 'logging.googleapis.com',
+            path: `/v2/projects/${projectId}/logs/${encodeURIComponent(logId)}`,
+        });
+        return result;
     }
     public getLog(type: GoogleLogParent, parentId: string, logId: string, resource: any, labels: any = {}): GoogleLog {
         return new GoogleLog(this, type, parentId, logId, resource, labels);

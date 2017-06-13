@@ -46,7 +46,7 @@ export class BigqueryEntity {
 }
 export class BigqueryTable extends BigqueryEntity implements Table {
     readonly dataset: BigqueryDataset;
-    readonly tables: MapLike<BigqueryTable>;
+    readonly tables: Dictionary<BigqueryTable>;
     readonly tableReference: TableReference;
     constructor(dataset: BigqueryDataset) {
         super(dataset.api);
@@ -55,7 +55,7 @@ export class BigqueryTable extends BigqueryEntity implements Table {
 }
 export class BigqueryDataset extends BigqueryEntity implements Dataset {
     readonly project: BigqueryProject;
-    readonly tables: MapLike<BigqueryTable>;
+    readonly tables: Dictionary<BigqueryTable>;
     readonly datasetReference: DatasetReference;
     constructor(project: BigqueryProject) {
         super(project.api);
@@ -111,17 +111,18 @@ export class BigqueryJob implements Job {
     }
 }
 export class BigqueryCopyJob extends BigqueryJob {
-    configuration: CopyJobConfiguration;
+    configuration: JobConfiguration;
     constructor(project: BigqueryProject, config: CopyJobConfiguration) {
         super(project, { copy: config });
     }
 }
 export class BigqueryExtractJob extends BigqueryJob {
-    configuration: ExtractJobConfiguration;
+    configuration:JobConfiguration;
     constructor(project: BigqueryProject, config: ExtractJobConfiguration) {
         super(project, { extract: config });
     }
 }
+
 export class BigqueryLoadJob extends BigqueryJob {
     configuration: JobConfiguration;
     constructor(project: BigqueryProject, config: LoadJobConfiguration) {
@@ -153,7 +154,7 @@ export class BigqueryQueryJob extends BigqueryJob {
 }
 
 export class BigqueryProject extends BigqueryEntity implements Project {
-    readonly datasets: MapLike<BigqueryDataset>;
+    readonly datasets: Dictionary<BigqueryDataset>;
     async getDatasets(cached: boolean = true) {
         if (!this.datasets || !cached) {
             if (this.datasets) {
@@ -338,7 +339,7 @@ export class GoogleBigquery extends GoogleApiBase {
             }
         }
     }
-    readonly projects: MapLike<BigqueryProject>;
+    readonly projects: Dictionary<BigqueryProject>;
     async getProjects(cached: boolean = true) {
         if (!this.projects || !cached) {
             if (this.projects) {

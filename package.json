@@ -1,6 +1,6 @@
 {
     "name"              : "@ecmal/gapi",
-    "version"           : "0.0.1",
+    "version"           : "0.0.2",
     "description"       : "Google APIs for Typescript",
     "license"           : "UNLICENSED",
     "author"            : "Mamble Inc. <ecmal@mamble.co>",
@@ -10,15 +10,15 @@
     "bugs"              : "https://github.com/ecmal/gapi/issues",
     "keywords"          : ["typescript","ecmal","google","api"],
     "types"             : "index.d.ts",
+    "bundle"            : true,
     "engines"           : {},
     "directories"       : {
         "src"           : "./src",
-        "out"           : "./node_modules"
+        "out"           : "../.out"
     },
     "dependencies"      : {
-        "@ecmal/core"     : "latest",
-        "@ecmal/runtime"  : "latest",
-        "@ecmal/node"     : "latest",
-        "@ecmal/http"     : "latest"
+        "@ecmal/runtime"  : "0.0.2",
+        "@ecmal/node"     : "0.0.2",
+        "@ecmal/http"     : "0.0.2"
     }
 }
